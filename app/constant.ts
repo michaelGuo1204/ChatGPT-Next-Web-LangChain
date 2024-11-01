@@ -31,6 +31,7 @@ export enum Path {
   Masks = "/masks",
   Plugins = "/plugins",
   Auth = "/auth",
+  Artifacts = "/artifacts",
 }
 
 export enum ApiPath {
@@ -43,6 +44,7 @@ export enum ApiPath {
   Baidu = "/api/baidu",
   ByteDance = "/api/bytedance",
   Alibaba = "/api/alibaba",
+  Artifacts = "/api/artifacts",
 }
 
 export enum SlotID {
@@ -385,6 +387,8 @@ export const internalAllowedWebDavEndpoints = [
   "https://webdav.yandex.com",
   "https://app.koofr.net/dav/Koofr",
 ];
+
+export const DEFAULT_GA_ID = "G-89WN60ZK2E";
 
 export const MYFILES_BROWSER_TOOLS_SYSTEM_PROMPT = `
 # Tools
