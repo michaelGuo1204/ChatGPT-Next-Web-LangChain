@@ -129,6 +129,7 @@ export const getServerSideConfig = () => {
   const isMoonshot = !!process.env.MOONSHOT_API_KEY;
   const isIflytek = !!process.env.IFLYTEK_API_KEY;
   const isXAI = !!process.env.XAI_API_KEY;
+  const isChatGLM = !!process.env.CHATGLM_API_KEY;
   // const apiKeyEnvVar = process.env.OPENAI_API_KEY ?? "";
   // const apiKeys = apiKeyEnvVar.split(",").map((v) => v.trim());
   // const randomIndex = Math.floor(Math.random() * apiKeys.length);
@@ -195,6 +196,10 @@ export const getServerSideConfig = () => {
     xaiUrl: process.env.XAI_URL,
     xaiApiKey: getApiKey(process.env.XAI_API_KEY),
 
+    isChatGLM,
+    chatglmUrl: process.env.CHATGLM_URL,
+    chatglmApiKey: getApiKey(process.env.CHATGLM_API_KEY),
+
     cloudflareAccountId: process.env.CLOUDFLARE_ACCOUNT_ID,
     cloudflareKVNamespaceId: process.env.CLOUDFLARE_KV_NAMESPACE_ID,
     cloudflareKVApiKey: getApiKey(process.env.CLOUDFLARE_KV_API_KEY),
@@ -231,5 +236,7 @@ export const getServerSideConfig = () => {
     edgeTTSVoiceName: process.env.EDGE_TTS_VOICE_NAME ?? "zh-CN-YunxiNeural",
     isUseOpenAIEndpointForAllModels:
       !!process.env.USE_OPENAI_ENDPOINT_FOR_ALL_MODELS,
+
+    disableModelProviderDisplay: !!process.env.DISABLE_MODEL_PROVIDER_DISPLAY,
   };
 };
