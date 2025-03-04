@@ -105,6 +105,7 @@ export const UNFINISHED_INPUT = (id: string) => "unfinished-input-" + id;
 export const STORAGE_KEY = "chatgpt-next-web";
 
 export const REQUEST_TIMEOUT_MS = 60000;
+export const REQUEST_TIMEOUT_MS_FOR_THINKING = REQUEST_TIMEOUT_MS * 5;
 
 export const EXPORT_MESSAGE_CLASS_NAME = "export-markdown";
 
@@ -359,6 +360,8 @@ const openaiModels = [
   "gpt-4-vision-preview",
   "gpt-4-turbo-2024-04-09",
   "gpt-4-1106-preview",
+  "gpt-4.5-preview",
+  "gpt-4.5-preview-2025-02-27",
   "dall-e-3",
   "o1-mini",
   "o1-preview",
@@ -417,6 +420,10 @@ const bytedanceModels = [
   "Doubao-pro-4k",
   "Doubao-pro-32k",
   "Doubao-pro-128k",
+  "deepseek-v3-241226",
+  "deepseek-r1-250120",
+  "deepseek-r1-distill-qwen-7b-250120",
+  "deepseek-r1-distill-qwen-32b-250120",
 ];
 
 const alibabaModes = [

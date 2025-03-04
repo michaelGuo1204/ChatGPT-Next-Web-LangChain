@@ -2,7 +2,11 @@ import { useEffect, useState } from "react";
 import { showToast } from "./components/ui-lib";
 import Locale, { getLang } from "./locales";
 import { RequestMessage } from "./client/api";
-import { DEFAULT_MODELS } from "./constant";
+import {
+  DEFAULT_MODELS,
+  REQUEST_TIMEOUT_MS,
+  REQUEST_TIMEOUT_MS_FOR_THINKING,
+} from "./constant";
 import { ServiceProvider } from "./constant";
 // import { fetch as tauriFetch, ResponseType } from "@tauri-apps/api/http";
 import { fetch as tauriStreamFetch } from "./utils/stream";
@@ -319,6 +323,8 @@ export function isVisionModel(model: string) {
     "gemini-exp-1114",
     "gpt-4o",
     "gpt-4o-mini",
+    "gpt-4.5-preview",
+    "gpt-4.5-preview-2025-02-27",
   ];
 
   var googleModels = DEFAULT_MODELS.filter(
@@ -338,6 +344,20 @@ export function isVisionModel(model: string) {
 
 export function isDalle3(model: string) {
   return "dall-e-3" === model;
+}
+
+export function getTimeoutMSByModel(model: string) {
+  model = model.toLowerCase();
+  if (
+    model.startsWith("dall-e") ||
+    model.startsWith("dalle") ||
+    model.startsWith("o1") ||
+    model.startsWith("o3") ||
+    model.includes("deepseek-r") ||
+    model.includes("-thinking")
+  )
+    return REQUEST_TIMEOUT_MS_FOR_THINKING;
+  return REQUEST_TIMEOUT_MS;
 }
 
 export function showPlugins(provider: ServiceProvider, model: string) {
@@ -366,6 +386,8 @@ export function isSupportRAGModel(modelName: string) {
     "gpt-4o-2024-05-13",
     "gpt-4o-mini",
     "gpt-4o-mini-2024-07-18",
+    "gpt-4.5-preview",
+    "gpt-4.5-preview-2025-02-27",
   ];
   if (specialModels.some((keyword) => modelName === keyword)) return true;
   if (isVisionModel(modelName)) return false;
@@ -394,6 +416,8 @@ export function isFunctionCallModel(modelName: string) {
     "gpt-4o-mini-2024-07-18",
     "gpt-4-turbo-2024-04-09",
     "gpt-4-1106-preview",
+    "gpt-4.5-preview",
+    "gpt-4.5-preview-2025-02-27",
     "claude-3-sonnet-20240229",
     "claude-3-opus-20240229",
     "claude-3-haiku-20240307",

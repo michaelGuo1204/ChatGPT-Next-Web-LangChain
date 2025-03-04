@@ -36,6 +36,7 @@ import { createEmptyMask, Mask } from "./mask";
 import { FileInfo, WebApi } from "../client/platforms/utils";
 import { usePluginStore } from "./plugin";
 import { TavilySearchResponse } from "@tavily/core";
+import { MYFILES_BROWSER_TOOLS_SYSTEM_PROMPT } from "../prompt";
 
 export interface ChatToolMessage {
   toolName: string;
@@ -561,6 +562,15 @@ export const useChatStore = createPersistStore(
                 session.messages = session.messages.concat();
               });
             },
+            onReasoningUpdate(message) {
+              botMessage.streaming = true;
+              if (message) {
+                botMessage.reasoningContent = message;
+              }
+              get().updateTargetSession(session, (session) => {
+                session.messages = session.messages.concat();
+              });
+            },
             onFinish(message) {
               botMessage.streaming = false;
               if (message) {
@@ -648,13 +658,23 @@ export const useChatStore = createPersistStore(
             session.mask.modelConfig.model.startsWith("chatgpt-"));
 
         var systemPrompts: ChatMessage[] = [];
+        var template = DEFAULT_SYSTEM_TEMPLATE;
+        if (session.attachFiles && session.attachFiles.length > 0) {
+          template += MYFILES_BROWSER_TOOLS_SYSTEM_PROMPT;
+          session.attachFiles.forEach((file) => {
+            template += `filename: \`${file.originalFilename}\`
+partialDocument: \`\`\`
+${file.partial}
+\`\`\``;
+          });
+        }
         systemPrompts = shouldInjectSystemPrompts
           ? [
               createMessage({
                 role: "system",
                 content: fillTemplateWith("", {
                   ...modelConfig,
-                  template: DEFAULT_SYSTEM_TEMPLATE,
+                  template: template,
                 }),
               }),
             ]
